@@ -48,7 +48,8 @@ jobs:
         OS_NAME=$(awk -F'=' '/^NAME/{name=$2} /^VERSION_ID/{version=$2} END{print substr(name,2,length(name)-2) "_" substr(version,2,length(version)-2)}' /etc/os-release)
         mkdir -p logs
         uname -a > logs/${{ env.OS_NAME }}-${{ env.UTC_TIME }}.txt
-        likwid-topology -g >> logs/${{ env.UTC_TIME }}.txt
+        likwid-topology -g >> logs/${{ env.OS_NAME }}-${{ env.UTC_TIME }}.txt
         git add logs/${{ env.UTC_TIME }}.txt
         git commit -m "Added the system information of the current run"
+        git pull
         git push -u origin main
