@@ -10,6 +10,13 @@ jobs:
   build-all:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: make
-      run: make
+    - name: Download the Likwid toolsuite
+      run: curl -Lk https://github.com/RRZE-HPC/likwid/archive/refs/tags/v5.4.1.zip -o release.zip
+
+    - name: Extract
+      run: unzip release.zip
+
+    - name: Build
+      run: |
+        cd likwid-5.4.1
+        make
