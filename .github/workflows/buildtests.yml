@@ -10,7 +10,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, ubuntu-22.04, macos-latest-large, macos-latest]
+        os: [ubuntu-latest, ubuntu-22.04]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     name: Build test on ${{ matrix.os }}
@@ -25,8 +25,8 @@ jobs:
     - name: Build
       run: |
         cd likwid-5.4.1
-        make likwid-topology
-        sudo make install likwid-topology
+        make
+        sudo make install
 
     - name: Print system information
       run: |
