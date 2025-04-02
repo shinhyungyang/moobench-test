@@ -26,7 +26,7 @@ jobs:
       run: |
         cd likwid-5.4.1
         make likwid-topology
-        sudo make install
+        sudo make install likwid-topology
 
     - name: Print system information
       run: |
