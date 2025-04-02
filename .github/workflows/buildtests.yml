@@ -7,8 +7,14 @@ on:
     branches: [ main ]
 
 jobs:
-  build-all:
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-22.04]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    name: Build test on ${{ matrix.os }}
+    timeout-minutes: 15
     steps:
     - name: Download the Likwid toolsuite
       run: curl -Lk https://github.com/RRZE-HPC/likwid/archive/refs/tags/v5.4.1.zip -o release.zip
