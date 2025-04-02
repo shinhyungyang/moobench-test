@@ -29,6 +29,7 @@ jobs:
       run: |
         git config user.name "${{ secrets.OWNER_NAME }}"
         git config user.email "${{ secrets.OWNER_EMAIL }}"
+        git config pull.rebase true
 
     - name: Download the Likwid toolsuite
       run: curl -Lk https://github.com/RRZE-HPC/likwid/archive/refs/tags/v5.4.1.zip -o release.zip
@@ -47,9 +48,10 @@ jobs:
         UTC_TIME=$(date -u +"%Y-%m-%dT%H-%M-%S.%NZ")
         OS_NAME=$(awk -F'=' '/^NAME/{name=$2} /^VERSION_ID/{version=$2} END{print substr(name,2,length(name)-2) "_" substr(version,2,length(version)-2)}' /etc/os-release)
         mkdir -p logs
-        uname -a > logs/${{ env.OS_NAME }}-${{ env.UTC_TIME }}.txt
-        likwid-topology -g >> logs/${{ env.OS_NAME }}-${{ env.UTC_TIME }}.txt
-        git add logs/${{ env.UTC_TIME }}.txt
+        OUTPUT="${{ env.OS_NAME }}-${{ env.UTC_TIME }}.txt"
+        uname -a > logs/${{ env.OUTPUT }}
+        likwid-topology -g >> logs/${{ env.OUTPUT }}
+        git add logs/${{ env.OUTPUT }}
         git commit -m "Added the system information of the current run"
         git pull
         git push -u origin main
