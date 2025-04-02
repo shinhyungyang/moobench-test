@@ -34,11 +34,13 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
 
-      - name: Setup Repo
+      - name: Checkout the current repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.REPO_ACCESS }}
           ref: main
+
+      - name: Setup Repo
         run: |
           git config user.name "${{ secrets.OWNER_NAME }}"
           git config user.email "${{ secrets.OWNER_EMAIL }}"
@@ -69,12 +71,14 @@ jobs:
           git pull
           git push -u origin main
 
-      - name: Execute MooBench Benchmark
+      - name: Checkout MooBench Benchmark
         uses: actions/checkout@v4
         with:
           repository: kieker-monitoring/moobench
           ref: main
           path: moobench
+
+      - name: Execute MooBench Benchmark
         run: |
           cd moobench
           git config user.name "${{ secrets.OWNER_NAME }}"
